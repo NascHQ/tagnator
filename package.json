@@ -1,0 +1,11 @@
+{
+  "name": "tagnator",
+  "version": "1.0.0",
+  "description": "Generates tags (labels for badges) for events",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Felipe N. de Moura <felipenmoura@gmail.com> (https://felipenmoura.com/)",
+  "license": "MIT"
+}
