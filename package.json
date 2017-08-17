@@ -2,10 +2,20 @@
   "name": "tagnator",
   "version": "1.0.0",
   "description": "Generates tags (labels for badges) for events",
-  "main": "index.js",
+  "main": "module/index.js",
+  "bin": "bin/index.js",
   "scripts": {
+    "start": "node server/index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Felipe N. de Moura <felipenmoura@gmail.com> (https://felipenmoura.com/)",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "bwip-js": "^1.4.2",
+    "express": "^4.15.4",
+    "nunjucks": "^3.0.1",
+    "opn": "^5.1.0",
+    "optimist": "^0.6.1",
+    "qrcode": "^0.9.0"
+  }
 }
