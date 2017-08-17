@@ -34,27 +34,26 @@
 
 
 <div class="controllers">
-    <div class="hide">
-    </div>
+    <div class="hide" onclick='toggleController()'></div>
     <div class="options">
         <span>Width</span>
-        <input name='width' type='range' value='9.2' min='8' max='12' step='.1' onchange="changedOptions(this)" data-kind='mm' />
+        <input name='width' type='range' value='9.2' title='9.2cm' min='8' max='12' step='.1' oninput="changedOptions(this)" data-kind='mm' />
         <br />
 
         <span>Height</span>
-        <input name='height' type='range' value='6.1' min='4' max='11' step='.1' onchange="changedOptions(this)" data-kind='mm' />
+        <input name='height' type='range' value='6.1' title='6.1cm' min='4.8' max='11' step='.1' oninput="changedOptions(this)" data-kind='mm' />
         <br />
 
         <span>X-distance</span>
-        <input name='margin-v' type='range' value='0.2' min='0' max='4' step='0.2' onchange="changedOptions(this)" />
+        <input name='margin-v' type='range' value='0.2' title='0.2cm' min='0' max='4' step='0.2' oninput="changedOptions(this)" />
         <br />
 
         <span>Y-distance</span>
-        <input name='margin-h' type='range' value='0.2' min='0' max='4' step='0.2' onchange="changedOptions(this)" />
+        <input name='margin-h' type='range' value='0.2' title='0.2cm' min='0' max='4' step='0.2' oninput="changedOptions(this)" />
         <br />
 
         <span>Font-size</span>
-        <input name='font-size' type='range' value='0.7' min='0.2' max='3' step='0.1' onchange="changedOptions(this)" />
+        <input name='font-size' type='range' value='0.7' title='0.7cm' min='0.2' max='3' step='0.1' oninput="changedOptions(this)" />
         <br />
 
         <input name='contrast' type='checkbox' checked onchange="changedOptions(this)" />
@@ -74,9 +73,10 @@
     }
     function changedOptions (el) {
         let changed = el.getAttribute('name')
-        let val = el.checked === void(0) ? el.value : el.checked
+        let val
         let kind = 'rem'
         if (el.getAttribute('type') === 'checkbox') {
+            val = el.checked
             if (changed === 'contrast') {
                 kind = ''
                 changed = 'contrast-bg'
@@ -95,7 +95,19 @@
                     val = 0
                 }
             }
+        } else {
+            val = el.value
+            el.setAttribute('title', val + 'cm')
         }
         setCSSVariable(changed, val + kind);
+    }
+
+    function toggleController () {
+        let el = document.querySelector('.controllers')
+        if (el.classList.contains('hidden')) {
+            el.classList.remove('hidden')
+        } else {
+            el.classList.add('hidden')
+        }
     }
 </script>
