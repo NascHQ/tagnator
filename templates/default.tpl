@@ -62,7 +62,8 @@
 
         <input name='border' type='checkbox' checked onchange="changedOptions(this)" />
         <span>Border</span>
-        <br />
+
+        <div class='btn-print' onclick='self.print()'>Print/Save as PDF</div>
     </div>
 </div>
 

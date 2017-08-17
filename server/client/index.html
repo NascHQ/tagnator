@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Tagnator - Tag generator for events and conferences</title>
+
+    <link rel="stylesheet" href="./default.css">
+</head>
+<body>
+    <div class='wrapper'>
+        <form action='/' name='theForm' id='theForm' method='post' target='generated-frame'>
+            <div class='options'>
+                <div class='option'>
+                    <span>Separator</span><br />
+                    <input type="text" name="separator" id="ipt-separator" value=','>
+                </div>
+                <div class='option'>
+                    <span>Fields<br />
+                        <sub>(separated by the separator. If left empty, will use the first line as header)</sub>
+                    </span><br />
+                    <input type="text" name="fields" id="ipt-separator" placeholder='name,email,status'>
+                </div>
+                <div class='option'>
+                    <span>QRCode fields <sub>(separated by the separator)</sub></span><br />
+                    <input type="text" name="qr" id="ipt-qr" placeholder="name,email">
+                </div>
+                <div class='option'>
+                    <span>Barcode <sub>(number starting from...)</sub></span><br />
+                    <input type="number" name="bar" id="ipt-bar" value='1'>
+                </div>
+                <div class='option'>
+                    <input type="checkbox" name="sort" id="ipt-sort" checked><span>Sort alphabetically</span><br />
+                </div>
+            </div>
+            <div class='data-container'>
+                <textarea name="csvData" id="csvData" cols="30" rows="10"></textarea>
+                <br />
+                <input type="button" onclick='generate()' value="Generate">
+            </div>
+        </form>
+        <div class='footer'></div>
+    </div>
+
+    <div class="generated">
+        <div class='closeBtn'>X</div>
+        <iframe src="about:_blank" name='generated-frame' id='generated-frame' class='generated-frame' frameborder="0"></iframe>
+    </div>
+
+    <script>
+        function generate () {
+            document.querySelector('.generated').classList.add('generating')
+            document.getElementById('theForm').submit()
+        }
+        document.querySelector('.closeBtn').addEventListener('click', function () {
+            document.querySelector('.generated').classList.remove('generating')
+        })
+    </script>
+</body>
+</html>

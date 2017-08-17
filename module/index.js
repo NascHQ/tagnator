@@ -4,7 +4,7 @@ const QRCode = require('qrcode')
 const { StringDecoder } = require('string_decoder')
 const bwipjs = require('bwip-js') // bar code generator
 const nunjucks = require('nunjucks')
-nunjucks.configure({ autoescape: true })
+nunjucks.configure({ autoescape: false })
 
 const DEFAULTS = {
     separator: ',',

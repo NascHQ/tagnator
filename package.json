@@ -11,6 +11,7 @@
   "author": "Felipe N. de Moura <felipenmoura@gmail.com> (https://felipenmoura.com/)",
   "license": "MIT",
   "dependencies": {
+    "body-parser": "^1.17.2",
     "bwip-js": "^1.4.2",
     "express": "^4.15.4",
     "nunjucks": "^3.0.1",
