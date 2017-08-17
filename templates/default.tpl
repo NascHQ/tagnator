@@ -1,37 +1,6 @@
 <style type='text/css'>
     {{ styles }}
 </style>
-<div class='page'>
-  {% for item in data %}
-    <div
-        class='tag {% if not (item.name) %}none{% endif %} {% if (opts.qr) %}qr{% endif %} {% if (opts.bar) %}bar{% endif %}'>
-        {% if (item.name) %}
-            {% if (item.id or opts.sequential) %}
-                <div class='sequential'>{{ item.id }}</div>
-            {% endif %}
-            <div class='qr-name'>
-                {% if (opts.qr) %}
-                    <div class='qr'>
-                        <img src='{{ item.qr }}' />
-                    </div>
-                {% endif %}
-                <div class='name'>
-                    {{ item.name }}
-                </div>
-            </div>
-            {% if (opts.bar) %}
-                <div class='bar'>
-                    <img src='data:image/png;base64,{{ item.bar }}' />
-                </div>
-            {% endif %}
-        {% endif %}
-    </div>
-    {% if (loop.index % 2 === 0) %}
-    </div><div class='page'>
-    {% endif %}
-  {% endfor %}
-</div>
-
 
 <div class="controllers">
     <div class="hide" onclick='toggleController()'></div>
@@ -112,3 +81,36 @@
         }
     }
 </script>
+
+<div class='pages'>
+    <div class='page'>
+    {% for item in data %}
+        <div
+            class='tag {% if not (item.name) %}none{% endif %} {% if (opts.qr) %}qr{% endif %} {% if (opts.bar) %}bar{% endif %}'>
+            {% if (item.name) %}
+                {% if (item.id or opts.sequential) %}
+                    <div class='sequential'>{{ item.id }}</div>
+                {% endif %}
+                <div class='qr-name'>
+                    {% if (opts.qr) %}
+                        <div class='qr'>
+                            <img src='{{ item.qr }}' />
+                        </div>
+                    {% endif %}
+                    <div class='name'>
+                        {{ item.name }}
+                    </div>
+                </div>
+                {% if (opts.bar) %}
+                    <div class='bar'>
+                        <img src='data:image/png;base64,{{ item.bar }}' />
+                    </div>
+                {% endif %}
+            {% endif %}
+        </div>
+        {% if (loop.index % 2 === 0) %}
+        </div><div class='page'>
+        {% endif %}
+    {% endfor %}
+    </div>
+</div>

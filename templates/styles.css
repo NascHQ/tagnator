@@ -32,6 +32,17 @@ body {
     display: flex;
     align-items: center;
     justify-content: space-around;
+    border: solid 1px #d0d0d0;
+    background: #fff;
+    border-top: none;
+    border-bottom: none;
+}
+.page:nth-child(1) {
+    border-top: solid 1px #d0d0d0;
+}
+.page:last-child {
+    border-bottom: solid 1px #d0d0d0;
+    margin-bottom: 30px;
 }
 
 .tag {
@@ -41,6 +52,7 @@ body {
     width: var(--width);
     height: var(--height);
     margin: var(--margin-v) var(--margin-h) var(--margin-v) var(--margin-h);
+    background: #fff;
 
     flex: 0 0 auto;
     font-size: .7rem;
@@ -109,6 +121,7 @@ body {
     border: solid 1px;
     width: 260px;
     transition: left linear .2s;
+    box-shadow: 0 0 60px;
 }
 .controllers.hidden {
     left: -260px;
@@ -171,6 +184,11 @@ body {
         size: portrait;
         margin: 0;
         padding: 0;
+    }
+    .page {
+        border: none !important;
+        border-top: none !important;
+        border-bottom: none !important;
     }
     .controllers {
         display: none;
