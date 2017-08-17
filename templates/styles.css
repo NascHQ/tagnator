@@ -143,9 +143,9 @@ body {
 
 @media all {
     .page	{
-        -webkit-page-break-before: always;
-        page-break-before: always;
-        break-before: always;
+        /* -webkit-page-break-before: always; */
+        page-break-after: auto;
+        break-before: auto;
 
         -webkit-column-break-inside: avoid;
         page-break-inside: avoid;
