@@ -12,6 +12,7 @@ const DEFAULTS = {
     noHeader: false,
     qr: null,
     bar: null,
+    sort: true,
     sequential: 1
 }
 
@@ -44,10 +45,6 @@ module.exports =(function () {
                         reject('Failed generating bar code!\n' + (err.message || err))
                     } else {
                         resolve(png)
-                        // `png` is a Buffer
-                        // png.length           : PNG file length
-                        // png.readUInt32BE(16) : PNG image width
-                        // png.readUInt32BE(20) : PNG image height
                     }
                 })
             })
@@ -115,6 +112,11 @@ module.exports =(function () {
                     }
                 }
                 PRIVATE.arrayToObject(opts.fields, data, opts).then(data => {
+                    if (opts.sort) {
+                        data = data.sort((prev, next) => {
+                            return prev.name.toLowerCase() > next.name.toLowerCase()
+                        })
+                    }
                     fs.readFile(__dirname + '/../templates/styles.css', 'utf-8', (err, styles) => {
                         if (err) {
                             return reject('Failed retrieving styles for the tags!\n' + (err.message || err))

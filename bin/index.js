@@ -42,6 +42,8 @@ Eg:
     .boolean('h')
         .alias('h', 'help')
         .describe('h', 'Shows this help message and usage')
+    .boolean('no-sort')
+        .describe('no-sort', 'Should NOT sort alphabetically')
     .string('qr')
         .describe('qr', 'QR Code will be generated using the given fields(coma separated)')
     .boolean('bar')
@@ -98,6 +100,7 @@ const content = fs.readFile(source, 'utf-8', (err, result) => {
             noHeader: argv['no-header'],
             qr: argv.qr ? argv.qr.split(argv.s) : null,
             bar: argv.bar,
+            sort: !argv['no-sort'],
             sequential: argv.n
         }
         ).then(parsed => {

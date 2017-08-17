@@ -45,11 +45,11 @@
         <br />
 
         <span>X-distance</span>
-        <input name='margin-v' type='range' value='0.2' title='0.2cm' min='0' max='4' step='0.2' oninput="changedOptions(this)" />
+        <input name='margin-h' type='range' value='0.2' title='0.2cm' min='0' max='4' step='0.2' oninput="changedOptions(this)" />
         <br />
 
         <span>Y-distance</span>
-        <input name='margin-h' type='range' value='0.2' title='0.2cm' min='0' max='4' step='0.2' oninput="changedOptions(this)" />
+        <input name='margin-v' type='range' value='0.2' title='0.2cm' min='0' max='4' step='0.2' oninput="changedOptions(this)" />
         <br />
 
         <span>Font-size</span>
