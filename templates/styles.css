@@ -153,6 +153,11 @@ body {
 }
 
 @media print {
+    @page {
+        size: portrait;
+        margin: 0;
+        padding: 0;
+    }
     .controllers {
         display: none;
     }
