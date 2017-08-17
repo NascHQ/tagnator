@@ -66,6 +66,8 @@
         }
         document.querySelector('.closeBtn').addEventListener('click', function () {
             document.querySelector('.generated').classList.remove('generating')
+            document.getElementById('generated-frame').src = 'about:_blank'
+            document.getElementById('ipt-csv-file').value = ''
         })
     </script>
 </body>

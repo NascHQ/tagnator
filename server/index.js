@@ -55,3 +55,5 @@ app.post('/', function (req, res) {
 })
 
 app.listen(8008)
+
+console.log('Listning on port 8008')

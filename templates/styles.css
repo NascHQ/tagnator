@@ -122,6 +122,7 @@ body {
     width: 260px;
     transition: left linear .2s;
     box-shadow: 0 0 60px;
+    z-index: 99999;
 }
 .controllers.hidden {
     left: -260px;
