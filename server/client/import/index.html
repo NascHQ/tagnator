@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Import</title>
+
+    <style>
+        iframe {
+            outline: none;
+            border: none;
+            background: transparent;
+        }
+        .loading {
+            position: relative;
+            margin: auto;
+            width: 200px;
+            height: 40px;
+            overflow: hidden;
+            text-align: center;
+            padding-top: 15px;
+            display: none;
+        }
+        .loading:before,
+        .loading:after {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 40px;
+            height: 2px;
+            background: #f00;
+            animation: loader alternate ease-in-out 1s infinite;
+        }
+        .loading:after {
+            top: auto;
+            bottom: 0;
+            animation-delay: 1s;
+        }
+
+        @keyframes loader {
+            0% {
+                transform: translateX(-35px);
+            }
+            100% {
+                transform: translateX(195px);
+            }
+        }
+
+        body[data-processing="1"] .loading {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <form method='post'
+        action='http://localhost:8008/import/upload'
+        encType="multipart/form-data"
+        onsubmit="startProcessing()"
+        target="upload-target">
+        <div>
+            Choose a CSV file:<br/>
+            <input type='file' name='csvFile' />
+        </div>
+        <div>
+            <input type="checkbox" name="clean" id="clean" checked> Clean list before importing
+        </div>
+        <div>
+            <input type='submit' />
+        </div>
+    </form>
+    <div class="loading">processing...</div>
+    <iframe src="" name="upload-target" onload="endProcessing()" frameborder="0"></iframe>
+
+    <script>
+        function startProcessing () {
+            document.body.dataset.processing = 1;
+        }
+        function endProcessing () {
+            document.body.dataset.processing = 0;
+        }
+    </script>
+</body>
+</html>

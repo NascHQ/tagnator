@@ -4,6 +4,199 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+
+    <style>
+        /* latin-ext */
+        @font-face {
+            font-family: 'Roboto';
+            font-style: normal;
+            font-weight: 400;
+            src: local('Roboto'), local('Roboto-Regular'), url(./roboto-2.woff2) format('woff2');
+            unicode-range: U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF;
+        }
+        /* latin */
+        @font-face {
+            font-family: 'Roboto';
+            font-style: normal;
+            font-weight: 400;
+            src: local('Roboto'), local('Roboto-Regular'), url(./roboto-2.woff2) format('woff2');
+            unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+        }
+        /* latin-ext */
+        @font-face {
+            font-family: 'Anton';
+            font-style: normal;
+            font-weight: 400;
+            src: local('Anton Regular'), local('Anton-Regular'), url(./anton-1.woff2) format('woff2');
+            unicode-range: U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF;
+        }
+        /* latin */
+        @font-face {
+            font-family: 'Anton';
+            font-style: normal;
+            font-weight: 400;
+            src: local('Anton Regular'), local('Anton-Regular'), url(./anton-1.woff2) format('woff2');
+            unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+        }
+    </style>
+
+    <style>
+        @page {
+            size: 80mm 40mm landscape;
+            padding: 0;
+            margin: 0;
+        }
+        @media print {
+            #import-container {
+                display: none !important;
+                visibility: hidden !important;
+            }
+        }
+            html, body {
+                /* width: 80mm;
+                height: 40mm; */
+                margin: 0;
+                padding: 0;
+            }
+            * {
+                box-sizing: border-box;
+            }
+
+            body {
+                /* position: fixed; */
+            }
+
+            div {
+                font-family: 'Roboto';
+                letter-spacing: 2px;
+                width: 75mm;
+                /* height: 35mm; */
+                height: 100%;
+                margin: 0; /* 0.05in; */
+                display: flex;
+                align-items: center;
+                position: relative;
+                /* page-break-before: avoid; */
+                page-break-after: always;
+            }
+
+            div:last-child {
+                page-break-after: avoid;
+            }
+            
+            /* div:before, div:after {
+                content: "";
+                position: absolute;
+                left: 0;
+                top: 0;
+                width: 10px;
+                height: 10px;
+                background: black;
+            }
+            div:after {
+                left: auto;
+                top: auto;
+                right: 0;
+                bottom: 0;
+            } */
+
+            img {
+                float: left;
+                height: 3.4cm;
+                margin-top: 0.2cm;
+            }
+
+            #import-container {
+                position: fixed;
+                bottom: 0;
+                left: 0;
+                width: 100%;
+                height: 20%;
+                display: none;
+                background: #252525;
+                padding: 5px;
+                text-align: right;
+            }
+
+            #import-container textarea {
+                height: calc(100% - 40px);
+                width: 100%;
+            }
+
+            button {
+                height: 40px;
+                font-weight: bold;
+                width: 200px;
+            }
+
+        /* } */
+    </style>
+</head>
+<body>
+
+    <div id="import-container">
+        <textarea name="import-csv" id="import-csv" cols="30" rows="10">Felipe N. de Moura,felipe@nasc.io
+Jaydson Nascimento Gomes,jaydson@nasc.io
+Gabriel Corrêa, gabriel@gmail.com
+Thayse Amaral,thayse@nasc.io
+Debora Duarte,debora@nasc.io</textarea>
+        <button class="print-btn" onclick="window.print()">PRINT</button>
+        <button class="import-btn">IMPORT</button>
+    </div>
+
+    <script>
+        function createLabel (data) {
+            return new Promise((resolve, reject) => {
+                const name = data.name.replace(/(\%20)|\+|(\\ )/g, ' ');
+                const dv = document.createElement('div');
+                const img = document.createElement('img');
+                const h3 = document.createElement('h3');
+                h3.innerHTML = name;
+                img.alt = name;
+                img.onload = resolve;
+                img.onerror = reject;
+                img.src = `./qr.png?email=${data.email}&name=${name.replace(/ /g, '+')}`;
+                dv.appendChild(img);
+                dv.appendChild(h3);
+                document.body.appendChild(dv);
+            });
+        }
+
+        const url = new URL(location.href);
+        const params = new URLSearchParams(url.search);
+        if (params.has('email')) {
+            createLabel({
+                email: params.get('email'),
+                name: params.get('name')
+            }).then(window.print);
+        } else {
+            document.getElementById('import-container').style.display = 'block';
+            document.querySelector('.import-btn').onclick = function () {
+                const lines = document.getElementById('import-csv').value.split('\n');
+                lines.forEach(line => {
+                    line = line.split(',');
+                    createLabel({
+                        name: line[0],
+                        email: line[1]
+                    });
+                });
+            };
+
+        }
+    </script>
+</body>
+</html>
+
+
+
+
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Tagnator - Tag generator for events and conferences</title>
 
     <link rel="stylesheet" href="./default.css">
@@ -71,4 +264,4 @@
         })
     </script>
 </body>
-</html>
+</html> -->
