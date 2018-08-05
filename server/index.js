@@ -5,19 +5,40 @@ const bodyParser = require('body-parser')
 const QRCode = require('qrcode')
 const fs = require('fs-extra');
 const fileUpload = require('express-fileupload');
+const url = require('url');    
 
+// used specially to deal with uploads and imports
 app.use(fileUpload());
-app.use(bodyParser.json());       // to support JSON-encoded bodies
+app.use(bodyParser.json());         // to support JSON-encoded bodies
 app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
   extended: true
-}))
+}));
+
+// the index page
+// will offer access to the menus and different profiles
+// app.use('/', express.static(__dirname + '/client'));
 
 app.get('/', function (req, res) {
-    // if (req.query.find) {
-        // res.send('');
-    // } else {
+    if (req.query.find) {
+        fs.readFile(__dirname + '/attendees/' + req.query.find, (err, data) => {
+            if (err) {
+                // there is no registry for that code
+                res.send('NOPE');
+            } else {
+                const email = data;
+                const code = req.query.find;
+                res.redirect(url.format({
+                    pathname:"/",
+                    query: {
+                        email,
+                        name
+                     }
+                }));
+            }
+        });
+    } else {
         res.sendFile(__dirname + '/client/index.html');
-    // }
+    }
 });
 app.get('/default.css', function (req, res) {
     res.sendFile(__dirname + '/client/default.css')
@@ -117,7 +138,7 @@ app.post('/import/upload', async function(req, res) {
                 }),
                 new Promise((resolve, reject) => {
                     // create a file whose name is the user's e-mail, containing the user's id (the code)
-                    fs.writeFile(__dirname + '/attendees/' + email + '.txt', code, err => {
+                    fs.writeFile(__dirname + '/attendees/' + email + '.txt', code + '|' + name, err => {
                         if (err) {
                             reject('Failed creating attendee email file. ' + err);
                         } else {
@@ -127,7 +148,7 @@ app.post('/import/upload', async function(req, res) {
                 }),
                 new Promise((resolve, reject) => {
                     // create a file whose name is the user's id, containing the user's email
-                    fs.writeFile(__dirname + '/attendees/' + code + '.txt', email, err => {
+                    fs.writeFile(__dirname + '/attendees/' + code + '.txt', email + '|' + name, err => {
                         if (err) {
                             reject('Failed creating attendee code file. ' + err);
                         } else {
