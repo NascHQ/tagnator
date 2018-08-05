@@ -16,57 +16,50 @@ app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
 
 // the index page
 // will offer access to the menus and different profiles
-app.use('/', express.static(__dirname + '/client'));
 
-app.get('/', function (req, res) {
-    if (req.query.find) {
-        fs.readFile(__dirname + '/attendees/' + req.query.find, (err, data) => {
-            if (err) {
-                // there is no registry for that code
-                res.send('NOPE');
-            } else {
-                const email = data;
-                const code = req.query.find;
-                res.redirect(url.format({
-                    pathname:"/",
-                    query: {
-                        email,
-                        name
-                     }
-                }));
-            }
-        });
-    } else {
-        res.sendFile(__dirname + '/client/index.html');
-    }
+// app.get('/', function (req, res) {
+//     if (req.query.find) {
+//         fs.readFile(__dirname + '/attendees/' + req.query.find, (err, data) => {
+//             if (err) {
+//                 // there is no registry for that code
+//                 res.send('NOPE');
+//             } else {
+//                 const email = data;
+//                 const code = req.query.find;
+//                 res.redirect(url.format({
+//                     pathname:"/",
+//                     query: {
+//                         email,
+//                         name
+//                      }
+//                 }));
+//             }
+//         });
+//     } else {
+//         res.sendFile(__dirname + '/client/index.html');
+//     }
+// });
+
+app.get('/tag', async function (req, res) {
+    const tag = require('./client/tag/index.js');
+    const attendee = await tag.findAttendeeData(req);
+
+    res.redirect(url.format({
+        pathname:"/tag/index.html",
+        query: attendee
+    }));
 });
 
-app.get('/qr.png', function (req, res) {
-    const str = req.query.name + ',' + req.query.email;
-    
-    const fileName = __dirname + '/qr-images/' + req.query.email + '.png';
-    
-    fs.access(fileName, fs.constants.R_OK, err => {
-        if (err) {
-            // new file
-            QRCode.toFile(fileName, str, {
-                color: {
-                    dark: '#000',  // Blue dots
-                    light: '#0000' // Transparent background
-                }
-            }, function (err) {
-                if (err) throw err;
-                res.sendFile(fileName);
-            });
-        } else {
-            res.sendFile(fileName);
-        }
-    });
+app.get('/qr.png', async function (req, res) {
+    const qrPath = await require('./client/tag/qr.js')(req, res);
+    res.sendFile(__dirname + '/data/qr-images/' + qrPath);
 });
 
 app.post('/import/upload', async function(req, res) {
     require('./client/import/upload.js')(req, res);
 });
+
+app.use('/', express.static(__dirname + '/client'));
 
 app.listen(8008);
 
