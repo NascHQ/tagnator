@@ -2,6 +2,8 @@
 
 Tagnator generates tags for badges in events and Conferences.
 
+![Example of tagnator usave](https://raw.githubusercontent.com/NascHQ/tagnator/master/example.gif)
+
 ## Install
 
 You can use it in three main ways:
@@ -74,3 +76,8 @@ tagnator.process(csvData, opts)
 In case of a failure, you will get the error message in the `cache` statement.
 
 In case of success, you will receive the **full html + css + js** for the page to run the same tool, but as a string.
+
+## Usecase
+
+It has been used during BrazilJS organization. We have generated 1500 tags in a few seconds.  
+If you have a case, or is facing some hard time with it, let us know.
