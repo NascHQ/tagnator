@@ -40,13 +40,22 @@ app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
 //     }
 // });
 
-app.get('/tag', async function (req, res) {
+app.get(['/tag/', '/tag/index.html'], async function (req, res, next) {
     const tag = require('./client/tag/index.js');
-    const attendee = await tag.findAttendeeData(req);
+    const attendee = await tag.findAttendeeData(req, true);
+    console.log({attendee});
+
+    const queryData = {...(attendee) || {}};
+    queryData.notFound = attendee ? 0 : 1;
+    
+    if (req.query.redirected) {
+        return next();
+    }
+    queryData.redirected = 1;
 
     res.redirect(url.format({
         pathname:"/tag/index.html",
-        query: attendee
+        query: queryData
     }));
 });
 

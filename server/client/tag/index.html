@@ -163,27 +163,34 @@ Debora Duarte,debora@nasc.io</textarea>
             });
         }
 
-        const url = new URL(location.href);
-        const params = new URLSearchParams(url.search);
-        if (params.has('email')) {
-            createLabel({
-                email: params.get('email'),
-                name: params.get('name')
-            }).then(window.print);
-        } else {
-            document.getElementById('import-container').style.display = 'block';
-            document.querySelector('.import-btn').onclick = function () {
-                const lines = document.getElementById('import-csv').value.split('\n');
-                lines.forEach(line => {
-                    line = line.split(',');
-                    createLabel({
-                        name: line[0],
-                        email: line[1]
-                    });
-                });
-            };
+        (function () {
+            const url = new URL(location.href);
+            const params = new URLSearchParams(url.search);
 
-        }
+            if (params.get('notFound') === '1') {
+                alert('Attendee not found.\nParticipante não encontrado.');
+                return;
+            }
+
+            if (params.has('email')) {
+                createLabel({
+                    email: params.get('email'),
+                    name: params.get('name')
+                }).then(window.print);
+            } else {
+                document.getElementById('import-container').style.display = 'block';
+                document.querySelector('.import-btn').onclick = function () {
+                    const lines = document.getElementById('import-csv').value.split('\n');
+                    lines.forEach(line => {
+                        line = line.split(',');
+                        createLabel({
+                            name: line[0],
+                            email: line[1]
+                        });
+                    });
+                };
+            }
+        })();
     </script>
 </body>
 </html>

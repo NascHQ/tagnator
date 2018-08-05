@@ -1,10 +1,24 @@
 const fs = require('fs-extra');
 const attendeePath = './server/data/attendees/';
 
-async function findAttendeeData (req) {
+async function findAttendeeData (req, ensureRegistry) {
     return new Promise(async (resolve, reject) => {
         const data = {};
         if (req.query.email) {
+            if (ensureRegistry) {
+                try {
+                    console.log(req.query.email);
+                    const attendeeData = (await fs.readFile(attendeePath + req.query.email + '.txt')).toString().split('|');
+
+                    data.email = attendeeData[0];
+                    data.name = attendeeData[1];
+                    return resolve(data);
+                } catch (error) {
+                    // no attendee with that e-mail
+                    console.log({error});
+                    return resolve(null);
+                }
+            }
             data.email = req.query.email;
             data.name = req.query.name || req.query.email.split('@')[0];
             resolve(data);
@@ -20,7 +34,7 @@ async function findAttendeeData (req) {
                         data = {
                             email: data[0],
                             name: data[1]
-                        }
+                        };
                         resolve(data);
                     }
                 });
