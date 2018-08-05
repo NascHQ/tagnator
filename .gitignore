@@ -2,5 +2,5 @@ node_modules
 .DS_Files
 .DS_Store
 printable-tags.html
-server/attendees
-server/qr-images
+server/data/attendees
+server/data/qr-images

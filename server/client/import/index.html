@@ -55,13 +55,13 @@
 </head>
 <body>
     <form method='post'
-        action='http://localhost:8008/import/upload'
+        action='/import/upload'
         encType="multipart/form-data"
         onsubmit="startProcessing()"
         target="upload-target">
         <div>
             Choose a CSV file:<br/>
-            <input type='file' name='csvFile' />
+            <input type='file' name='csvFile' accept=".csv" />
         </div>
         <div>
             <input type="checkbox" name="clean" id="clean" checked> Clean list before importing

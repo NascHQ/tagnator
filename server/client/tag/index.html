@@ -156,7 +156,7 @@ Debora Duarte,debora@nasc.io</textarea>
                 img.alt = name;
                 img.onload = resolve;
                 img.onerror = reject;
-                img.src = `./qr.png?email=${data.email}&name=${name.replace(/ /g, '+')}`;
+                img.src = `/qr.png?email=${data.email}&name=${name.replace(/ /g, '+')}`;
                 dv.appendChild(img);
                 dv.appendChild(h3);
                 document.body.appendChild(dv);
@@ -187,81 +187,3 @@ Debora Duarte,debora@nasc.io</textarea>
     </script>
 </body>
 </html>
-
-
-
-
-<!-- <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Tagnator - Tag generator for events and conferences</title>
-
-    <link rel="stylesheet" href="./default.css">
-</head>
-<body>
-    <div class='wrapper'>
-        <h3>The Tagnator</h3>
-        <form action='/' name='theForm' id='theForm' method='post' target='generated-frame' enctype="multipart/form-data">
-            <div class='options'>
-                <div class='option'>
-                    <span>Separator</span>
-                    <input type="text" name="separator" id="ipt-separator" value=',' maxlength="1">
-                </div>
-                <div class='option'>
-                    <span>Barcode</span>
-                    <input type="number" name="bar" id="ipt-bar" value='1' pattern="\d*" maxlength="5"
-                        title='Generates a sequencial barcode, starting from this value. If 0, will not generate the barcode'
-                        oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);">
-                </div>
-                <div class='option'>
-                    <span>Fields</span>
-                    <br />
-                    <input class='large' type="text" title='Separated by the separator. If left empty, will use the first line as header' name="fields" id="ipt-fields" placeholder='Eg.: name,email,status'>
-                </div>
-                <div class='option'>
-                    <span>QRCode fields</span><br />
-                    <input class='large' title='Fields that will be stored in the qr-code. Separated by the separator' type="text" name="qr" id="ipt-qr" placeholder="Eg.: name,email">
-                </div>
-                <div class='option'>
-                    <input type="checkbox" name="sort" id="ipt-sort" checked><span>Sort alphabetically</span><br />
-                </div>
-            </div>
-            <div class='data-container'>
-                <textarea name="csvData" id="csvData" cols="30" rows="10"></textarea>
-                <br />
-                <div class="btns-container">
-                    <div onclick='generate()' class='btn-gen'>
-                        Generate
-                    </div>
-                    <div class="btn-gen">
-                        <input type="file" name="csv-file" id="ipt-csv-file" onchange="generate()" accept='.csv'>
-                        <div class='upload-btn' onclick="document.getElementById('ipt-csv-file').click();">Upload and Generate</div>
-                    </div>
-                </div>
-            </div>
-        </form>
-        <div class='footer'></div>
-    </div>
-
-    <div class="generated">
-        <div class='closeBtn'>X</div>
-        <iframe src="about:_blank" name='generated-frame' id='generated-frame' class='generated-frame' frameborder="0"></iframe>
-    </div>
-
-    <script>
-        function generate () {
-            document.querySelector('.generated').classList.add('generating')
-            document.getElementById('generated-frame').src = 'about:_blank'
-            document.getElementById('theForm').submit()
-        }
-        document.querySelector('.closeBtn').addEventListener('click', function () {
-            document.querySelector('.generated').classList.remove('generating')
-            document.getElementById('generated-frame').src = 'about:_blank'
-            document.getElementById('ipt-csv-file').value = ''
-        })
-    </script>
-</body>
-</html> -->
