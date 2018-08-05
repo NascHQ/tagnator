@@ -217,6 +217,7 @@
                     // }, options.timeout || 20000)
 
                     initiated = true
+                    MODULE.initiated = true;
                     if (options.onReady) {
                         options.onReady();
                     }

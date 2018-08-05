@@ -74,6 +74,25 @@ body[data-initiated] .settings {
     box-shadow: none;
     transform: translate(5px, 5px);
 }
+#qr-reader-btn[disabled] {
+    background: #f0f0f0;
+}
+
+#email-input {
+    width: 80%;
+    height: 100px;
+    margin: auto;
+    display: block;
+    position: absolute;
+    bottom: 25%;
+    left: 0;
+    right: 0;
+    text-align: center;
+    font-size: 30px;
+    border: inset 4px #0f0;
+    border-radius: 10px;
+    background: #fff;
+}
 
 .QRScanner-container {
     position: fixed;
@@ -115,4 +134,29 @@ body[data-scanner-ready] .QRScanner-container:after {
 
 #printer {
     display: none;
+}
+
+.spinner {
+    animation: spin infinite linear 1s;
+    position: absolute;
+    left: 5px;
+    top: 20px;
+    font-size: 30px;
+    width: 30px;
+    height: 30px;
+    text-align: center;
+    line-height: 30px;
+    padding-top: 2px;
+    display: none;
+}
+
+body[data-processing='1'] .spinner {
+    display: block;
+}
+
+@keyframes spin {
+    0% {}
+    100% {
+        transform: rotate(359deg);
+    }
 }

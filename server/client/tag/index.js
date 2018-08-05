@@ -7,15 +7,13 @@ async function findAttendeeData (req, ensureRegistry) {
         if (req.query.email) {
             if (ensureRegistry) {
                 try {
-                    console.log(req.query.email);
                     const attendeeData = (await fs.readFile(attendeePath + req.query.email + '.txt')).toString().split('|');
 
-                    data.email = attendeeData[0];
+                    data.email = req.query.email;
                     data.name = attendeeData[1];
                     return resolve(data);
                 } catch (error) {
                     // no attendee with that e-mail
-                    console.log({error});
                     return resolve(null);
                 }
             }

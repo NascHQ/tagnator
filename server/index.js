@@ -43,7 +43,6 @@ app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
 app.get(['/tag/', '/tag/index.html'], async function (req, res, next) {
     const tag = require('./client/tag/index.js');
     const attendee = await tag.findAttendeeData(req, true);
-    console.log({attendee});
 
     const queryData = {...(attendee) || {}};
     queryData.notFound = attendee ? 0 : 1;

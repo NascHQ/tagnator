@@ -68,7 +68,7 @@
             }
 
             div {
-                font-family: 'Roboto';
+                /* font-family: 'Roboto', 'Sans-serif', 'Tahoma', 'Arial'; */
                 letter-spacing: 2px;
                 width: 75mm;
                 /* height: 35mm; */
@@ -173,10 +173,19 @@ Debora Duarte,debora@nasc.io</textarea>
             }
 
             if (params.has('email')) {
-                createLabel({
+                let tagData = {
                     email: params.get('email'),
                     name: params.get('name')
-                }).then(window.print);
+                };
+                createLabel(tagData).then(_ => {
+                    window.onafterprint = function() {
+                       const shouldCheckin = window.confirm('Confirm checkin?');
+                        if (shouldCheckin && window.parent && window.parent.confirmCheckin) {
+                            window.parent.confirmCheckin(tagData);
+                        }
+                    }
+                    window.print();
+                });
             } else {
                 document.getElementById('import-container').style.display = 'block';
                 document.querySelector('.import-btn').onclick = function () {

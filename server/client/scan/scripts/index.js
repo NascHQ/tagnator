@@ -1,13 +1,17 @@
 (function () {
     const DBOpenRequest = window.indexedDB.open("qr-code-read", 4);
-    let PRINTER_SERVER = '';
+    let PRINTER_SERVER = '/tag/';
+    
+    const printer = document.getElementById('printer');
+    const printerBtn = document.getElementById('qr-reader-btn');
+    const emailInput = document.getElementById('email-input');
+
     const opts = {
         cb: document.getElementById('save-to-clipboard'),
         al: document.getElementById('append-to-list'),
         bs: document.getElementById('bip'),
         cs: document.getElementById('checkin'),
     };
-    const printer = document.getElementById('printer');
     opts.cb.addEventListener('click', event => {
         navigator.clipboard.readText()
         .then(text => {})
@@ -106,9 +110,10 @@
                     QRScanner.beep();
                 }
                 if (result && opts.cs) {
-                    // printer.src = PRINTER_SERVER + '?name=felipe&email=hasldjad';
-                    printer.src = PRINTER_SERVER + '?find=' + result;
+                    lockForm();
+                    printer.src = PRINTER_SERVER + '?email=' + result;
                 }
+                resetForm();
             },
             onError: function (err) { console.error('ERR :::: ', err); }, // optional
             onTimeout: function () { console.warn('TIMEDOUT'); } // optional
@@ -173,16 +178,57 @@
             event.returnValue = false;
             this.dataset.pressed = true;
         }
-        QRScanner.release();
+        if (this.dataset.action === 'search') {
+            lockForm();
+            printer.src = PRINTER_SERVER + '?email=' + emailInput.value;
+        } else {
+            QRScanner.release();
+        }
     }
 
     function stopScanning (event) {
         QRScanner.pause();
-        this.dataset.pressed = false;
+        printerBtn.dataset.pressed = false;
     }
 
-    document.getElementById('qr-reader-btn').addEventListener('mousedown', startScanning);
-    document.getElementById('qr-reader-btn').addEventListener('touchstart', startScanning);
-    document.getElementById('qr-reader-btn').addEventListener('mouseup', stopScanning);
-    document.getElementById('qr-reader-btn').addEventListener('touchend', stopScanning);
+    function resetForm () {
+        if (QRScanner.initiated) {
+            stopScanning();
+        }
+        typingEmail();
+    }
+
+    function typingEmail (event) {
+        const button = printerBtn;
+        if (event && this.value.length) {
+            button.innerHTML = 'SEARCH';
+            button.dataset.action = 'search';
+        } else {
+            button.innerHTML = 'SCAN';
+            button.dataset.action = 'scan';
+            emailInput.value = '';
+        }
+    }
+
+    function lockForm () {
+        printerBtn.disabled = true;
+        document.body.dataset.processing = '1';
+    }
+
+    function releaseForm () {
+        printerBtn.disabled = false;
+        document.body.dataset.processing = '0';
+    }
+
+    printerBtn.addEventListener('mousedown', startScanning);
+    printerBtn.addEventListener('touchstart', startScanning);
+    printerBtn.addEventListener('mouseup', stopScanning);
+    printerBtn.addEventListener('touchend', stopScanning);
+
+    emailInput.addEventListener('keyup', typingEmail);
+    printer.addEventListener('load', releaseForm);
+
+    window.confirmCheckin = function confirmCheckin (email, code) {
+        debugger;
+    };
 })();
